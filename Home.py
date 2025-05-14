@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-from utils.utils import *
+from utils.connection import *
 
 if __name__ == "__main__":
     st.set_page_config(
