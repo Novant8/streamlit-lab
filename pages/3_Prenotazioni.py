@@ -22,28 +22,7 @@ def main():
         # - Per calcolare la differenza tra due date, è possibile utilizzare la funzione                |
         # DATEDIFF(Data1, Data2) di MySQL.                                                              |
         #------------------------------------------------------------------------------------------------
-        result=execute_query("""
-            WITH COSTI_MENSILI AS ( 
-                SELECT STANZA_CodS, MONTH(DataInizio) AS Mese, 
-                        Costo/(DATEDIFF(DataFine, DataInizio)) AS CostoGiornaliero 
-                FROM PRENOTAZIONE
-                WHERE YEAR(DataInizio) = 2023
-            ), 
-            COSTI_MENSILI_RAGGRUPPATI AS ( 
-                SELECT Mese, STANZA_CodS, AVG(CostoGiornaliero) AS MediaGiornaliera 
-                FROM COSTI_MENSILI 
-                GROUP BY Mese, STANZA_CodS
-            ), 
-            COSTI_MENSILI_MAX AS ( 
-                SELECT Mese, MAX(MediaGiornaliera) AS MediaGiornalieraMax 
-                FROM COSTI_MENSILI_RAGGRUPPATI
-                GROUP BY Mese 
-            )
-            SELECT CMR.Mese, CMR.STANZA_CodS, CMR.MediaGiornaliera
-            FROM COSTI_MENSILI_RAGGRUPPATI CMR, COSTI_MENSILI_MAX CMM
-            WHERE CMR.Mese = CMM.Mese AND CMR.MediaGiornaliera = CMM.MediaGiornalieraMax
-            ORDER BY CMR.Mese ASC
-        """)
+        result=None
         
         #################################################
         # Mostrare i risultati - NON MODIFICARE

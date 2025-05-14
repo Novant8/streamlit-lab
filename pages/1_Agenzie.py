@@ -16,13 +16,13 @@ def main():
         #------------------------------------------------------------------------------------------------
 
         # Query 1 - Contare il numero totale di agenzie.
-        agenzieN=execute_query("SELECT COUNT(*) AS numAgenzie FROM AGENZIA")
+        agenzieN=None
         
         # Query 2 - Contare il numero di città in cui sono presenti agenzie.
-        agenzieCity=execute_query("SELECT COUNT(DISTINCT Citta_Indirizzo) AS numCittà FROM AGENZIA")
+        agenzieCity=None
         
         # Query 3 - Selezionare la città con il maggior numero di agenzie.
-        city=execute_query("SELECT Citta_Indirizzo, COUNT(*) AS num FROM AGENZIA GROUP BY Citta_Indirizzo ORDER BY num DESC LIMIT 1")
+        city=None
         
         #################################################
         # Mostrare i risultati - NON MODIFICARE
@@ -41,28 +41,10 @@ def main():
         # La variabile cityName è una stringa che contiene il nome della città.
         cityName=st.text_input("Filtra per città")
 
-        #------------------------------------------------------------------------------------------------
-        # OPZIONALE - MAPPA DELLE AGENZIE                                                               |
-        #------------------------------------------------------------------------------------------------
-        query = """
-            SELECT CITTA.Latitudine AS 'LAT', CITTA.Longitudine AS 'LON'
-            FROM AGENZIA, CITTA
-            WHERE AGENZIA.Citta_Indirizzo=CITTA.Nome
-        """
-        if cityName != '':
-            query += f" AND AGENZIA.Citta_Indirizzo LIKE '%{cityName}%'"
-        citygeo=execute_query(query)
-        df_map=pd.DataFrame(citygeo)
-        st.map(df_map)
-        #------------------------------------------------------------------------------------------------
-
         query = f"""
             SELECT CodA, Citta_Indirizzo, CONCAT(Via_Indirizzo,' ',Numero_Indirizzo) AS Indirizzo
             FROM AGENZIA
         """
-        if cityName != '':
-            query+=f" WHERE Citta_Indirizzo LIKE '%{cityName}%'"
-        
         cityInfo=execute_query(query)
         
         #################################################

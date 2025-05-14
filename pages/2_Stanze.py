@@ -34,37 +34,9 @@ def main():
             cucina=col2.checkbox("Voglio la cucina",value=False)
 
         query = f"""
-            SELECT DISTINCT CodS,Piano,Superficie,Type
+            SELECT CodS,Piano,Superficie,Type
             FROM STANZA
-                LEFT JOIN HAS_OPTIONAL ON STANZA.CodS=HAS_OPTIONAL.STANZA_CodS
-                LEFT JOIN HAS_SPAZI ON STANZA.CodS=HAS_SPAZI.STANZA_CodS
         """
-
-        # Utilizzare la clausola WHERE per la prima condizione, AND per le successive (se presenti)
-        clausola = "WHERE"
-
-        # Filtro sul tipo
-        if tipo != "Tutte":
-            query += f" {clausola} STANZA.Type='{tipo.lower()}'"
-            clausola = "AND"
-
-        # Filtro sugli optional
-        group_by = ""
-        if len(optional) > 0:
-            optional_sql = ",".join(f"'{o}'" for o in optional)
-            query += f" {clausola} HAS_OPTIONAL.OPTIONAL_Optional IN ({optional_sql})"
-            clausola = "AND"
-
-            # Vogliamo che le stanze mostrate contengano *tutti* gli optional richiesti dall'utente.
-            if len(optional) > 1:
-                group_by = f"GROUP BY CodS,Piano,Superficie,Type HAVING COUNT(*) = {len(optional)}"
-
-        # Filtro sulla cucina
-        if cucina:
-            query += f" {clausola} HAS_SPAZI.SPAZI_Spazi='cucina'"
-
-        query += group_by
-
         result=execute_query(query)
         
         #################################################

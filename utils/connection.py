@@ -9,8 +9,7 @@ def connect_db(dialect,username,password,host,dbname):
     # Usare la libreria SQLAlchemy.                                                                 |
     # La funzione deve restituire un oggetto di connessione valido.                                 |
     #------------------------------------------------------------------------------------------------
-    engine=create_engine(f'{dialect}://{username}:{password}@{host}/{dbname}')
-    return engine.connect()
+    raise NotImplementedError("Connessione al database non implementata.")
 
 ############################### NON MODIFICARE ###############################
 
