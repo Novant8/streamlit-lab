@@ -16,19 +16,19 @@ def main():
         #------------------------------------------------------------------------------------------------
 
         # Query 1 - Contare il numero totale di agenzie.
-        agenzieN=execute_query("SELECT COUNT(*) AS numAgenzie FROM AGENZIA")
+        agenzieN=execute_query("SELECT COUNT(*) FROM AGENZIA")
         
         # Query 2 - Contare il numero di città in cui sono presenti agenzie.
-        agenzieCity=execute_query("SELECT COUNT(DISTINCT Citta_Indirizzo) AS numCittà FROM AGENZIA")
+        agenzieCity=execute_query("SELECT COUNT(DISTINCT Citta_Indirizzo) FROM AGENZIA")
         
         # Query 3 - Selezionare la città con il maggior numero di agenzie.
         city=execute_query("SELECT Citta_Indirizzo, COUNT(*) AS num FROM AGENZIA GROUP BY Citta_Indirizzo ORDER BY num DESC LIMIT 1")
         
         #################################################
         # Mostrare i risultati - NON MODIFICARE
-        col1.metric("Numero di Agenzie",agenzieN.mappings().first()['numAgenzie'] if agenzieN else "N/A")
-        col2.metric("Numero di Città",agenzieCity.mappings().first()["numCittà"] if agenzieN else "N/A")
-        col3.metric("Città con più agenzie",city.mappings().first()["Citta_Indirizzo"] if agenzieN else "N/A")
+        col1.metric("Numero di Agenzie",agenzieN.scalar() if agenzieN else "N/A")
+        col2.metric("Numero di Città",agenzieCity.scalar() if agenzieN else "N/A")
+        col3.metric("Città con più agenzie",city.scalar() if agenzieN else "N/A")
         #################################################
 
         #------------------------------------------------------------------------------------------------
