@@ -26,9 +26,9 @@ def main():
         
         #################################################
         # Mostrare i risultati - NON MODIFICARE
-        col1.metric("Numero di Agenzie",agenzieN.mappings().first()['numAgenzie'] if agenzieN else "N/A")
-        col2.metric("Numero di Città",agenzieCity.mappings().first()["numCittà"] if agenzieN else "N/A")
-        col3.metric("Città con più agenzie",city.mappings().first()["Citta_Indirizzo"] if agenzieN else "N/A")
+        col1.metric("Numero di Agenzie",agenzieN.scalar() if agenzieN else "N/A")
+        col2.metric("Numero di Città",agenzieCity.scalar() if agenzieN else "N/A")
+        col3.metric("Città con più agenzie",city.scalar() if agenzieN else "N/A")
         #################################################
 
         #------------------------------------------------------------------------------------------------
